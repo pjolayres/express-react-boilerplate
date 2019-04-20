@@ -1,21 +1,18 @@
 const path = require('path');
-const webpack = require('webpack');
+const TerserPlugin = require('terser-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const WebpackShellPlugin = require('webpack-shell-plugin');
 
 const publicConfig = {
   resolve: {
-    extensions: ['.js', '.jsx'],
-    alias: {
-      'react-dom': '@hot-loader/react-dom'
-    },
+    extensions: ['.js', '.jsx']
   },
   entry: [
-    'webpack-hot-middleware/client',
     './src/client/index.js'
   ],
   output: {
     filename: 'scripts.js',
+    chunkFilename: '[name].[id].js',
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/'
   },
@@ -24,11 +21,7 @@ const publicConfig = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'babel-loader',
-        options: {
-          cacheDirectory: true,
-          plugins: ['react-hot-loader/babel']
-        }
+        loader: 'babel-loader'
       },
       {
         test: /\.svg$/,
@@ -86,8 +79,27 @@ const publicConfig = {
       template: 'src/client/index.html',
       filename: './index.html'
     }),
-    new webpack.HotModuleReplacementPlugin()
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'static',
+      openAnalyzer: false
+    })
   ],
+  optimization: {
+    minimizer: [new TerserPlugin({
+      sourceMap: true,
+      terserOptions: {
+        mangle: true,
+        ie8: false,
+        keep_fnames: true
+      }
+    })],
+    noEmitOnErrors: true,
+    occurrenceOrder: true,
+    splitChunks: {
+      name: 'vendors',
+      chunks: 'all'
+    }
+  },
   devServer: {
     contentBase: './dist',
     hot: true
@@ -96,7 +108,7 @@ const publicConfig = {
     jquery: 'jQuery'
   },
   devtool: 'source-map',
-  mode: 'development'
+  mode: 'production'
 };
 
 module.exports = publicConfig;
