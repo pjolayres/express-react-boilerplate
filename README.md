@@ -1,4 +1,4 @@
-# Express and React Boilerlate
+# Express and React Boilerplate
 
 A boilerplate for a static React web client application built using Webpack and Babel. Also features an express server with support for Hot Module Reloading (HMR) for faster development.
 
@@ -15,7 +15,8 @@ This will build the client web application into `/dist` folder and run an expres
 npm run build
 ```
 
-This will build the client web application into `/dist` folder. The following files will be generated
+This will build the client web application into `/dist` folder. The following files will be generated:
+
 ```bash
 dist
 ├── index.html       <-- HTML entry point
