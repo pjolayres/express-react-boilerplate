@@ -1,0 +1,23 @@
+{
+  "sourceMaps": true,
+  "presets": [
+      ["@babel/preset-env", {
+          "modules": false,
+          "targets": {
+              "browsers": [
+                  "last 1 version",
+                  "not dead",
+                  "> 1%"
+              ]
+          }
+      }],
+      "@babel/preset-react"
+  ],
+  "plugins": [
+      "react-hot-loader/babel",
+      "@babel/plugin-transform-async-to-generator",
+      "@babel/plugin-proposal-class-properties",
+      "@babel/plugin-proposal-object-rest-spread",
+      "@babel/plugin-syntax-dynamic-import"
+  ]
+}
